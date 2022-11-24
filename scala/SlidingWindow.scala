@@ -4,6 +4,8 @@ object SlidingWindow {
 
 
     // returns k contiguous elements with the highest sum (fixed sliding window)
+    // Time complexity O(n)
+    // Space complexity O(1)
     def maxSumOfKContiguousElems(arr: Array[Int], k: Int): Array[Int] = {
         var maxSum = 0
         var sum = 0
@@ -27,6 +29,8 @@ object SlidingWindow {
     }
 
     // returns the shortest sequence of elements which gives the target number
+    // Time complexity O(n)
+    // Space complexity O(1)
     def minNumberOfElementsSum(arr: Array[Int], target: Int): Array[Int] = {
         var sum = 0
         var windowStart:Int = 0
