@@ -1,9 +1,19 @@
 import scala.collection.mutable.ArrayBuffer
 
 object BinaryTree {
+   // DFS traversal
+   // - inorder = left-Root-Right
+   // - preorder = Root-Left-Right
+   // - postorder = Left-Right-Root 
+
+   // DFS vs BFS
+   // time complexity is the same O(n)
+   // DFS requires extra space due to function call stack (recursive overhead) - O(h) where h is the depth of the graph   
+   // If in our task the solution is most likely close to the root - use BFS - if close to leaf - DFS
 
   case class Tree(value:Integer, left:Option[Tree], right:Option[Tree])
 
+  // time complexity is O(n) where n is number of nodes
   def breadthFirstLevels(head: Tree): Array[Array[Int]] = {
     var queue = scala.collection.mutable.Queue[Tree](head)
     val res = ArrayBuffer[Array[Int]]()
