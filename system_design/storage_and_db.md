@@ -1,12 +1,6 @@
-# Common components
+# Databases and storage
 
-## API Gateway / Reverse proxy / Load Balancer
-
-
-
-## Databases
-
-### Common tems 
+### Common temrs
 
 *CAP*
 - *C*onsistency
@@ -51,3 +45,25 @@
 ![Decision tree](https://www.ml4devs.com/images/illustrations/sql-vs-nosql-cheatsheet.webp)
 
 
+### Replication
+
+Replication strategies:
+- Master-slaves (or 1 write-only and many read-only databases) - most common strategy for SQL and NoSQL, if master fails a new master can be selected
+- Multi-master
+- Circular replication
+
+### Sharding / Partitioning 
+
+
+
+## Cache
+
+#### Cache types
+- Read-through (or cache-aside) - cache is checked before reading from the DB and the data put in cache after reading from the DB
+- Write-through - cache is written right after inserting data to the DB
+
+### Eviction policy
+
+
+
+## CDN
