@@ -1,10 +1,16 @@
 # System architecture 
 
+https://medium.com/distributed-knowledge/scalable-web-architectures-concepts-design-6fd372ee4541
+
+https://bytebytego.com/courses/system-design-interview/scale-from-zero-to-millions-of-users
+
 ![Typical scalable app](https://miro.medium.com/max/1200/1*7Vq-CAUby3nt0UkF4GKhUg.png)
 
 ![Typical AWS system](https://developerck.com/wp-content/uploads/2021/08/aws_moodle_horizontal-1024x499.png?x98144)
 
 ![Typical AWS system](https://static-com.jingtaikeji.com/media/technology/Technology-CloudComputing/4-5-technology-cloudcomputing-pic1.jpg)
+
+https://cloudacademy.com/blog/architecting-on-aws-the-best-services-to-build-a-two-tier-application/
 
 ![Multi-DC app](https://www.simform.com/wp-content/uploads/2017/11/Multi-data-Centers-Architecture.png)
 

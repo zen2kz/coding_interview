@@ -15,6 +15,21 @@ Types
 
 ## CDN - Content-Delivery Network 
 
+A network of geographically dispersed servers used to deliver static content. CDN servers cache static content like images, videos, CSS, JavaScript files, etc.
+
+Workflow: 
+1. User A requests an image from the CDN (like https://mysite.akamai.com/image-manager/img/logo.jpg)
+2. CDN checks if it has this image in cache and if not queries it from the origin storage (for example S3)
+3. The origin service returns an image and also an optional header with TTL
+4. CDN cachesh the image 
+5. User B request the same image and it is served directly from CDN (as long as TTL is not expired)
+
+
+Considerations:
+1. CDNs may be expensive as they are 3rd party services, so it is good idea to cache frequently used files only
+2. Caching time should not be too short or too long
+3. Handle CDN outage / fallback to requesting from origin
+3. Invalidation before expiring - either through CDN API or using object versioning
 
 
 ## API Gateway / Reverse proxy / Load Balancer
@@ -66,8 +81,30 @@ For high traffic with no iddle Kubernetes engine is more efficient. For services
 ## Data Centers
 
 ### Geo-DNS
+GeoDNS resolves the name to ip address based on user location
+
+### Scalability
+It is good idea to have services stateless (i.e. the user session should be stored in some kind of DB (like Redis) and not in the service)
+
+It is good idea to have the application hosted in at least 2 data centers / availability zones. It allows to choose the closest one to a user and also failover traffic when there are issues with one of DC
 
 ### Technical challengers of multi-data center setup
-- Traffic redirection
-- Data Sync
-- Test and deployment
+- Traffic redirection - need tools like geo DNS to efficiently redirect traffic
+- Data Sync - data need to be replicated between DCs
+- Test and deployment - testing should be done in different locations and automated if possible
+
+## Message Queue / Event bus
+
+Used for async tasks. Allows to scale publishers and consumers independently.
+More efficient use of resources as the queue can grow during peak usage and then gradually processed when usage is lower
+Good for things like video tanscoding, image resizing and editing and etc
+
+
+## Logs, Obeservability, Metrics, Automation
+
+It is good idea to aggregate logs in a centralized storage which also support viewing, searching and alerting (Example Google Cloud Logging)
+
+It is also important to collect and monitor metrics like:
+- Host level metrics: CPU, Memory, Disk, I/O
+- Aggregated metrics like performance of the DB, caching tier
+- Key business metrics like DAU (daily active users), retention, revenue and etc
