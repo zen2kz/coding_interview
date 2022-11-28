@@ -4,7 +4,7 @@ object CyclicSort {
   // keyword: range from n to m, sort, scrambled
 
   // sort array of scrambled 1..n in-place  
-  // time complexity is 0
+  // time complexity is 0(n)
   def sortArray1toN(arr: Array[Int]): Array[Int] = {
     var i = 0
     while (i<arr.size) {
