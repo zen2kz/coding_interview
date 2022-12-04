@@ -6,7 +6,8 @@ object TwoPointers {
 
    // time complexity O(n)
    // space compleixty O(1)
-   def findPairsWithTargetSum(arr: Array[Int], target: Int, leftPointer:Int = 0) : Array[Array[Int]] = {
+   // This is a simple algorithm when there is no duplicates in the array
+   def findPairsWithTargetSumNoDuplicates(arr: Array[Int], target: Int, leftPointer:Int = 0) : Array[Array[Int]] = {
       //arr should be sorted 
       var res: ArrayBuffer[Array[Int]] = ArrayBuffer()
       var left:Int = leftPointer
@@ -28,11 +29,53 @@ object TwoPointers {
       res.toArray
    }
 
+   // time complexity O(n log n) - due to sorting
+   // space compleixty O(n) - we are creating a copy of the array
+   // This version covers edge cases when the array can contain duplicates
+   def findNumberOfPairsWithTargetSumWithEdgeCases(srcArr: Array[Int], target: Int, leftPointer:Int = 0) : Int = {
+      val arr = srcArr.sorted
+      var count = 0
+      var left:Int = leftPointer
+      var right:Int = arr.length-1
+
+      while (left<right) {
+        val lv = arr(left)
+        val rv = arr(right)
+        val currSum = lv+rv
+        if (currSum == target) {
+            if (lv!=rv) {
+                var countLeft = 0
+                while (arr(left) == lv) {
+                    countLeft+=1
+                    left +=1
+                }
+                var countRight = 0
+                while (arr(right) == rv) {
+                    countRight+=1
+                    right -=1
+                }
+                count += countLeft*countRight
+            } else {
+                val k = right-left
+                count += (k*(k+1))/2  
+                // 2-> 1, 3->3, 4->6, 5->10, 6->15
+                return count
+            }
+        } else if (currSum<target){
+            left +=1
+        } else if (currSum > target) {
+            right -=1
+        }
+      }
+
+      count
+   }
+
    def uniqueTripletsWhichSumIsZero(arr: Array[Int]):Array[Array[Int]] = {
      val res = HashSet[Array[Int]]()
      for (i<-0 until arr.size-1) {
        
-        val pairs = findPairsWithTargetSum(arr, -arr(i), i+1)
+        val pairs = findPairsWithTargetSumNoDuplicates(arr, -arr(i), i+1)
         pairs.foreach(p => {
             res += arr(i)+:p
         })
@@ -122,8 +165,12 @@ object TwoPointers {
     def main(args: Array[String])={
         val array = Array(1,2,3,4,5,6,7,8)
        
-        println(s"pairs with target sum 9 are ${findPairsWithTargetSum(array, 9).map(el=>el.mkString("+")).mkString(",")} [1+8,2+7,3+6,4+5]")
-        println(s"pairs with target sum 5 are ${findPairsWithTargetSum(array, 9).map(el=>el.mkString("+")).mkString(",")} [1+4,2+3]")
+        println(s"pairs with target sum 9 are ${findPairsWithTargetSumNoDuplicates(array, 9).map(el=>el.mkString("+")).mkString(",")} [1+8,2+7,3+6,4+5]")
+        println(s"pairs with target sum 5 are ${findPairsWithTargetSumNoDuplicates(array, 9).map(el=>el.mkString("+")).mkString(",")} [1+4,2+3]")
+
+        println(s"number of pairs with duplicates with target sum 120 of Array(60,60,60) is ${findNumberOfPairsWithTargetSumWithEdgeCases(Array(60,60,60), 120)} [3]")
+        println(s"number of pairs with duplicates with target sum 120 of Array(60,60,60,60,60) is ${findNumberOfPairsWithTargetSumWithEdgeCases(Array(60,60,60,60,60), 120)} [10]")
+        println(s"number of pairs with duplicates with target sum 11 is ${findNumberOfPairsWithTargetSumWithEdgeCases(Array(1,2,3,4,5,5,5,6,6,7,8), 11)} [8]")
 
         val array2 = Array(-3,-2,-1,0,1,1,2)
         println(s"unique triplets which are zero in total are ${uniqueTripletsWhichSumIsZero(array2).map(el=>el.mkString("+")).mkString(",")} [-3+1+2,-1+0+1,-2+1+1,-2+0+2]")
